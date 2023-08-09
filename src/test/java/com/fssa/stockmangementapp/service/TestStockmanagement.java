@@ -58,7 +58,7 @@ public class TestStockmanagement {
     @Test
     void testDeleteStock() throws StockDAOException {
 
-        Assertions.assertTrue(service.deleteStock(1));
+        Assertions.assertTrue(service.deleteStock(4));
     }
 
     @Test

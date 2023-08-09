@@ -6,7 +6,7 @@
 	<artifactId>stockmanagementapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>stockmanagementapp</name>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
