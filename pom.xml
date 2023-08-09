@@ -6,8 +6,7 @@
 	<artifactId>stockmanagementapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>stockmanagementapp</name>
-
-
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
@@ -62,13 +61,6 @@
 			<groupId>de.mkammerer</groupId>
 			<artifactId>argon2-jvm</artifactId>
 			<version>2.7</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>com.fssa.joel</groupId>
-			<artifactId>test-project</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
