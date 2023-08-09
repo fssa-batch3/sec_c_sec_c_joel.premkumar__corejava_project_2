@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import com.fssa.stockmanagementapp.service.StockService;
 import com.fssa.stockmanagementapp.model.Stock;
 
-public class TestStockmanagement {
+public class TestStockmanagement  {
 
     StockService service = new StockService();
 
