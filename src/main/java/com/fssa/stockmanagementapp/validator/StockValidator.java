@@ -1,94 +1,121 @@
 package com.fssa.stockmanagementapp.validator;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fssa.stockmanagementapp.errors.stockValidatorErrors;
+import com.fssa.stockmanagementapp.errors.StockValidatorErrors;
+import com.fssa.stockmanagementapp.exception.InvalidStockDataException;
 import com.fssa.stockmanagementapp.model.Stock;
 
 public class StockValidator {
 
-	public static boolean validate(Stock stock) throws Exception {
-		if (stock == null) {
-			throw new Exception(stockValidatorErrors.INVALID_NULL);
-		}
+    public boolean validate(Stock stock) throws InvalidStockDataException {
+        if (stock == null) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_NULL);
+        }
 
-		validateName(stock.getName());
-		validatedescription(stock.getDescription());
-		validateIsin(stock.getIsin());
-		validatedPrice(stock.getPrice());
-		validateCreationDate(stock.getCreateDate());
-		validateExpireDate(stock.getExpireDate());
-		return true;
+        validateName(stock.getName());
+        validatedescription(stock.getDescription());
+        validateIsin(stock.getIsin());
+        validatedPrice(stock.getPrice());
+        validateCreationDate(stock.getCreateDate());
+        validateExpireDate(stock.getExpireDate());
+        validCreationTime(stock.getCreatedTime());
+        validExprieTime(stock.getExpireTime(), stock.getCreatedTime(), stock.getExpireDate(), stock.getCreateDate());
+        return true;
 
-	}
+    }
 
-	public static boolean validateName(String name) throws Exception {
-		if (name == null || name.trim().equals("")) {
-			throw new Exception(stockValidatorErrors.INVALID_NULL_NAME);
-		}
-		String regex = "^[a-zA-Z]{1,50}+$";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher match = pattern.matcher(name);
-		boolean isMatch = match.matches();
-		if (!isMatch) {
-			throw new Exception(stockValidatorErrors.INVALID_NAME);
-		}
-		return true;
+    public boolean validateName(String name) throws InvalidStockDataException {
+        if (name == null || name.trim().equals("")) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_NULL_NAME);
+        }
+        String regex = "^[a-zA-Z]{1,50}+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher match = pattern.matcher(name);
+        boolean isMatch = match.matches();
+        if (!isMatch) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_NAME);
+        }
+        return true;
 
-	}
-	 
-	public static boolean validateId(int id) throws Exception {
-		if (id < 0) {
-			throw new Exception(stockValidatorErrors.INVALID_ID);
-		}
-		return true;
-	}
+    }
 
-	public static boolean validateIsin(String isin) throws Exception {
-		if (isin == null || isin.trim().equals("")) {
-			throw new Exception(stockValidatorErrors.INVALID_ISIN);
-		}
-		return true;
-	}
 
-	public static boolean validatedescription(String description) throws Exception {
+    public boolean validateIsin(String isin) throws InvalidStockDataException {
+        if (isin == null || isin.trim().equals("")) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_ISIN);
+        }
+        return true;
+    }
 
-		if (description == null || description.trim().equals("")) {
-			throw new Exception(stockValidatorErrors.INVALID_DESC);
-		}
-		return true;
-	}
+    public boolean validatedescription(String description) throws InvalidStockDataException {
 
-	public static boolean validatedPrice(double price) throws Exception {
+        if (description == null || description.trim().equals("")) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_DESC);
+        }
+        return true;
+    }
 
-		if (price < 10) {
-			throw new Exception(stockValidatorErrors.INVALID_PRICE);
-		}
-		return true;
-	}
+    public boolean validatedPrice(double price) throws InvalidStockDataException {
 
-	public static boolean validateCreationDate(LocalDate date) throws Exception {
+        if (price <= 10) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_PRICE);
+        }
+        return true;
+    }
 
-		LocalDate today = LocalDate.now();
-		if (date == null) {
-			throw new Exception(stockValidatorErrors.INVALID_DATE_NULL);
-		} else if (date.isAfter(today)) {
-			throw new Exception(stockValidatorErrors.INVALID_DATE);
-		}
-		return true;
-	}
+    public boolean validateCreationDate(LocalDate date) throws InvalidStockDataException {
+        if (date == null) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_DATE_NULL);
+        } else if (!date.isEqual(LocalDate.now())) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_DATE);
+        }
+        return true;
+    }
 
-	public static boolean validateExpireDate(LocalDate date) throws Exception {
 
-		LocalDate today = LocalDate.now();
-		if (date == null) {
-			throw new Exception(stockValidatorErrors.INVALID_DATE_NULL);
-		} else if (date.isBefore(today)) {
-			throw new Exception(stockValidatorErrors.INVALID_DATE);
-		}
-		return true;
-	}
+    public boolean validCreationTime(LocalTime time) throws InvalidStockDataException {
+
+        if (time == null) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_TIME_NULL);
+        }
+        if (time.isBefore(LocalTime.MIN) || time.isAfter(LocalTime.MAX)) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_TIME);
+        }
+
+        return true;
+
+    }
+
+    public boolean validateExpireDate(LocalDate date) throws InvalidStockDataException {
+
+        LocalDate today = LocalDate.now();
+        if (date == null) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_DATE_NULL);
+        } else if (date.isBefore(today)) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_DATE);
+        }
+        return true;
+    }
+
+    public boolean validExprieTime(LocalTime expireTime, LocalTime creationTime, LocalDate expireDate, LocalDate creationDate) throws InvalidStockDataException {
+
+        if (expireTime == null) {
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_TIME_NULL);
+        } else if (expireTime.equals(creationTime)) {
+
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_TIME);
+        } else if (expireDate.equals(creationDate) && expireTime.isBefore(creationTime)) {
+
+            throw new InvalidStockDataException(StockValidatorErrors.INVALID_TIME);
+        }
+
+
+        return true;
+    }
+
 
 }
