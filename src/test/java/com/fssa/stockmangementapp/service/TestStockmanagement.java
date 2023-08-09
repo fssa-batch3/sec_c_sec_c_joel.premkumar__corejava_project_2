@@ -58,13 +58,13 @@ public class TestStockmanagement {
     @Test
     void testDeleteStock() throws StockDAOException {
 
-        Assertions.assertTrue(service.deleteStock(6));
+        Assertions.assertTrue(service.deleteStock(9));
     }
 
     @Test
     void testUpdateStock() throws StockDAOException, InvalidStockDataException{
 
-        Assertions.assertTrue(service.updateStock("apple", "US-000402625-0", 400));
+        Assertions.assertTrue(service.updateStock("microsoft", "US-000402625-0", 400));
     }
 
 
