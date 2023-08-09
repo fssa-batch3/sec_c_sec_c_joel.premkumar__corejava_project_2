@@ -9,7 +9,7 @@ public class ConnectionUtil {
 
 
 public static Connection getConnection() {
-    Connection con = null;
+    Connection con = null; 
 
     String url, userName, passWord;
 
@@ -27,6 +27,7 @@ public static Connection getConnection() {
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         con = DriverManager.getConnection(url, userName, passWord);
+        System.out.println("connected");
     } catch (Exception e) {
         e.printStackTrace();
         throw new RuntimeException("Unable to connect to the database");

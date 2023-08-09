@@ -38,7 +38,7 @@ public class StockValidator {
 		return true;
 
 	}
-	
+	 
 	public static boolean validateId(int id) throws Exception {
 		if (id < 0) {
 			throw new Exception(stockValidatorErrors.INVALID_ID);

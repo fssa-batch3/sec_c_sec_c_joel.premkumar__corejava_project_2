@@ -7,6 +7,17 @@ import com.fssa.stockmanagementapp.model.Stock;
 import com.fssa.stockmanagementapp.validator.StockValidator;
 
 public class StockService {
+	
+	public StockValidator stockValidator;
+	public StockDao stockDao;
+	
+
+	public StockService(StockValidator stockValidator, StockDao stockDao) {
+		
+		this.stockValidator = stockValidator;
+		this.stockDao = stockDao;
+	} 
+	
 
 	public static boolean addStock(Stock stock) throws Exception {
 
@@ -15,7 +26,7 @@ public class StockService {
 			boolean result = StockDao.addStock(stock);
 			return result;
 		}
-		return false;
+		return false;  
 	}
 
 	public static boolean updateStock(String name, String isin, double price) throws Exception {

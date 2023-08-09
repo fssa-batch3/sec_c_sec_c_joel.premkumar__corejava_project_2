@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Stack;
 
 import com.fssa.stockmanagementapp.model.Stock;
 
@@ -13,7 +15,7 @@ public class StockDao {
 
 	public static boolean addStock(Stock stock) throws SQLException {
 
-		final String query = "INSERT INTO stock (stockName ,isin,descrip,price,createDate,expireDate) VALUES(? , ? , ?, ?, ?,?);";
+		final String query = "INSERT INTO stock (stockName ,isin,descrip,price,createDate,expireDate,createTime,expriedTime) VALUES(? , ? , ?, ?, ?,?,?,?);";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -28,6 +30,8 @@ public class StockDao {
 				pst.setDate(5, java.sql.Date.valueOf(stock.getCreateDate()));
 
 				pst.setDate(6, java.sql.Date.valueOf(stock.getExpireDate()));
+				pst.setTime(7, java.sql.Time.valueOf(stock.getCreatedTime()));
+				pst.setTime(8, java.sql.Time.valueOf(stock.getExpireTime()));
 
 				int row = pst.executeUpdate();
 				System.out.println("Stock Added Successfully");
@@ -52,7 +56,7 @@ public class StockDao {
 						System.out.println("price: " + rs.getDouble(4));
 						System.out.println("createDate: " + rs.getDate(5));
 						System.out.println("expireDate: " + rs.getDate(6));
-						System.out.println("\n");
+						System.out.println();
 
 					}
 					return true;
@@ -67,7 +71,7 @@ public class StockDao {
 
 	public static boolean updateStock(String name, String isin, double price) throws SQLException {
 
-		String query = "UPDATE stock SET  isin= ?, price = ? WHERE stock_name = ?;";
+		String query = "UPDATE stock SET  isin= ?, price = ? WHERE stockName = ? ";
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -117,7 +121,7 @@ public class StockDao {
 
 	public static boolean deleteStock(String name) throws Exception {
 
-		String query = "DELETE FROM stock WHERE stock_name = ?";
+		String query = "DELETE FROM stock WHERE stockName = ?";
 		int rows;
 		try (Connection con = ConnectionUtil.getConnection()) {
 			PreparedStatement pst = con.prepareStatement(query);
@@ -170,10 +174,17 @@ public class StockDao {
 
 	public static void main(String[] args) throws Exception {
 
-		Stock st = new Stock(1, "ZOHO", "US-000402625-0", "the stock is good", 30.0, LocalDate.of(2003, 3, 03),
-				LocalDate.of(2003, 12, 16));
-//		findStockByName("Apple");
-		addStock(st);
+		Stock st = new Stock(4, "google", "US-000402625-0", "the stock is good", 30.0, LocalDate.now(), LocalTime.now(),
+				LocalDate.now(), LocalTime.now());
+//		addStock(st);
+
+		// updateStock("google","US-000402625-0",1000.0);
+
+//		readStock();
+		
+		deleteStock("apple");
+		
 
 	}
+
 }

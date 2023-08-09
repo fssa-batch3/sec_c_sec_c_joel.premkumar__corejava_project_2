@@ -1,6 +1,7 @@
 package com.fssa.stockmangement.validator;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,9 +12,11 @@ import com.fssa.stockmanagementapp.validator.StockValidator;
 
 public class TestStockValidator {
 
-	Stock validStocks = new Stock(4, "apple", "US-000402625-0", "the stock is good", 30.0, LocalDate.of(2003, 3, 03),
-			LocalDate.of(9999, 12, 31));
-	Stock inValidStocks = new Stock(-3, null, null, null, -3, LocalDate.of(2025, 5, 05) , LocalDate.of(2005, 5, 05));
+	Stock validStocks = new Stock(4, "apple", "US-000402625-0", "the stock is good", 30.0, LocalDate.now(),
+			LocalTime.now(), LocalDate.now(), LocalTime.now());
+	
+	Stock inValidStocks = new Stock(-3, null, null, null, -3, LocalDate.now(),
+			LocalTime.now(), LocalDate.now(), LocalTime.now());
 
 	@Test
 	public void testValidate() throws Exception {
@@ -166,7 +169,7 @@ public class TestStockValidator {
 			Assertions.assertEquals(stockValidatorErrors.INVALID_DATE, e.getMessage());
 		}
 	}
-	
+	 
 	@Test
 	public void testValidateExpireDate() throws Exception {
 		validStocks.setExpireDate(validStocks.getExpireDate());
