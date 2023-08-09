@@ -7,7 +7,7 @@ import com.fssa.stockmanagementapp.exception.InvalidStockDataException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.stockmanagementapp.errors.StockValidatorErrors;
+import com.fssa.stockmanagementapp.errors.ValidatorErrors;
 import com.fssa.stockmanagementapp.model.Stock;
 import com.fssa.stockmanagementapp.validator.StockValidator;
 
@@ -31,7 +31,7 @@ public class TestStockValidator {
         try {
             validator.validate(null);
         } catch (InvalidStockDataException e) {
-            Assertions.assertEquals(StockValidatorErrors.INVALID_NULL, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_NULL, e.getMessage());
         }
 
     }
@@ -47,7 +47,7 @@ public class TestStockValidator {
         try {
             validator.validateName(inValidStocks.getName());
         } catch (InvalidStockDataException e) {
-            Assertions.assertEquals(StockValidatorErrors.INVALID_NULL_NAME, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_NULL_NAME, e.getMessage());
 
         }
     }
@@ -58,7 +58,7 @@ public class TestStockValidator {
             validator.validateName("KJDK6@*OEJ09");
 
         } catch (InvalidStockDataException e) {
-            Assertions.assertEquals(StockValidatorErrors.INVALID_NAME, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_NAME, e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class TestStockValidator {
 
         } catch (InvalidStockDataException e) {
 
-            Assertions.assertEquals(StockValidatorErrors.INVALID_ISIN, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_ISIN, e.getMessage());
         }
     }
 
@@ -98,7 +98,7 @@ public class TestStockValidator {
 
         } catch (InvalidStockDataException e) {
 
-            Assertions.assertEquals(StockValidatorErrors.INVALID_DESC, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_DESC, e.getMessage());
         }
     }
 
@@ -119,7 +119,7 @@ public class TestStockValidator {
 
         } catch (InvalidStockDataException e) {
 
-            Assertions.assertEquals(StockValidatorErrors.INVALID_PRICE, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_PRICE, e.getMessage());
         }
     }
 
@@ -136,7 +136,7 @@ public class TestStockValidator {
             validator.validateCreationDate(null);
 //			Assertions.fail("Test case failed");
         } catch (InvalidStockDataException e) {
-            Assertions.assertEquals(StockValidatorErrors.INVALID_DATE_NULL, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_DATE_NULL, e.getMessage());
         }
     }
 
@@ -146,7 +146,7 @@ public class TestStockValidator {
             validator.validateCreationDate(inValidStocks.getCreateDate());
 //			Assertions.fail("Test case failed");
         } catch (InvalidStockDataException e) {
-            Assertions.assertEquals(StockValidatorErrors.INVALID_DATE, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_DATE, e.getMessage());
         }
     }
 
@@ -162,7 +162,7 @@ public class TestStockValidator {
             validator.validateExpireDate(null);
 //			Assertions.fail("Test case failed");
         } catch (InvalidStockDataException e) {
-            Assertions.assertEquals(StockValidatorErrors.INVALID_DATE_NULL, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_DATE_NULL, e.getMessage());
         }
     }
 
@@ -172,7 +172,7 @@ public class TestStockValidator {
             validator.validateExpireDate(inValidStocks.getExpireDate());
 //			Assertions.fail("Test case failed");
         } catch (InvalidStockDataException e) {
-            Assertions.assertEquals(StockValidatorErrors.INVALID_DATE, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_DATE, e.getMessage());
         }
     }
 
@@ -192,7 +192,7 @@ public class TestStockValidator {
             Assertions.fail("Test case failed");
         } catch (InvalidStockDataException e) {
 
-            Assertions.assertEquals(StockValidatorErrors.INVALID_TIME_NULL, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_TIME_NULL, e.getMessage());
         }
     }
 
@@ -212,7 +212,7 @@ public class TestStockValidator {
             Assertions.fail("Test case failed");
         } catch (InvalidStockDataException e) {
 
-            Assertions.assertEquals(StockValidatorErrors.INVALID_TIME_NULL, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_TIME_NULL, e.getMessage());
         }
 
     }
@@ -226,7 +226,7 @@ public class TestStockValidator {
             Assertions.fail("Test case failed");
         } catch (InvalidStockDataException e) {
 
-            Assertions.assertEquals(StockValidatorErrors.INVALID_TIME, e.getMessage());
+            Assertions.assertEquals(ValidatorErrors.INVALID_TIME, e.getMessage());
         }
 
     }
