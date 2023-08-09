@@ -19,7 +19,7 @@ public class TestStockmanagement {
     Logger logger = new Logger();
 
     public Stock getStock() {
-        Stock stock = new Stock("ISRO", "US-000402625-0", "the stock is good", 30.0, LocalDate.now(),
+        Stock stock = new Stock("Hemanath", "US-000402625-0", "the stock is good", 30.0, LocalDate.now(),
                 LocalTime.now(), LocalDate.now(), LocalTime.now().plusHours(1));
 
         return stock;
@@ -58,7 +58,7 @@ public class TestStockmanagement {
     @Test
     void testDeleteStock() throws StockDAOException {
 
-        Assertions.assertTrue(service.deleteStock(9));
+        Assertions.assertTrue(service.deleteStock(8));
     }
 
     @Test
