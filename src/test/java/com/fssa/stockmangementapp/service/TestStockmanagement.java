@@ -19,7 +19,7 @@ public class TestStockmanagement {
     Logger logger = new Logger();
 
     public Stock getStock() {
-        Stock stock = new Stock("Hemanath", "US-000402625-0", "the stock is good", 30.0, LocalDate.now(),
+        Stock stock = new Stock("AAPL", "US-000406825-0", "AMZN  Stock", 3000.0, LocalDate.now(),
                 LocalTime.now(), LocalDate.now(), LocalTime.now().plusHours(1));
 
         return stock;
@@ -49,7 +49,7 @@ public class TestStockmanagement {
     @Test
     void testReadByName() throws StockDAOException, InvalidStockDataException {
 
-        Stock stock = service.readByName("microsoft");
+        Stock stock = service.readByName("FRSH");
         Assertions.assertNotNull(stock);
         logger.info(stock);
 
@@ -58,13 +58,13 @@ public class TestStockmanagement {
     @Test
     void testDeleteStock() throws StockDAOException {
 
-        Assertions.assertTrue(service.deleteStock(8));
+        Assertions.assertTrue(service.deleteStock(16));
     }
 
     @Test
     void testUpdateStock() throws StockDAOException, InvalidStockDataException{
 
-        Assertions.assertTrue(service.updateStock("microsoft", "US-000402625-0", 400));
+        Assertions.assertTrue(service.updateStock("FRSH", "US-000402625-0", 5000));
     }
 
 
