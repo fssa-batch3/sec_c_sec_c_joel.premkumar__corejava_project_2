@@ -1,0 +1,14 @@
+use joel_premkumar_corejava_project;
+
+
+CREATE TABLE IF NOT EXISTS stock (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    stockName VARCHAR(30) NOT NULL UNIQUE,
+    isin VARCHAR(20) NOT NULL,
+    descrip VARCHAR(40) NOT NULL,
+    price DOUBLE NOT NULL,
+    createDate DATE NOT NULL,
+    expireDate DATE NOT NULL,
+	createTime TIME NOT NULL,
+    expriedTime TIME NOT NULL
+);
