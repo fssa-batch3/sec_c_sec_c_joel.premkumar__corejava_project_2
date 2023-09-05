@@ -20,10 +20,6 @@ public class StockValidator {
         validatedescription(stock.getDescription());
         validateIsin(stock.getIsin());
         validatedPrice(stock.getPrice());
-        validateCreationDate(stock.getCreateDate());
-        validateExpireDate(stock.getExpireDate());
-        validCreationTime(stock.getCreatedTime());
-        validExprieTime(stock.getExpireTime(), stock.getCreatedTime(), stock.getExpireDate(), stock.getCreateDate());
         return true;
 
     }
@@ -67,55 +63,7 @@ public class StockValidator {
         return true;
     }
 
-    public boolean validateCreationDate(LocalDate date) throws InvalidStockDataException {
-        if (date == null) {
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_DATE_NULL);
-        } else if (!date.isEqual(LocalDate.now())) {
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_DATE);
-        }
-        return true;
-    }
 
-
-    public boolean validCreationTime(LocalTime time) throws InvalidStockDataException {
-
-        if (time == null) {
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_TIME_NULL);
-        }
-        if (time.isBefore(LocalTime.MIN) || time.isAfter(LocalTime.MAX)) {
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_TIME);
-        }
-
-        return true;
-
-    }
-
-    public boolean validateExpireDate(LocalDate date) throws InvalidStockDataException {
-
-        LocalDate today = LocalDate.now();
-        if (date == null) {
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_DATE_NULL);
-        } else if (date.isBefore(today)) {
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_DATE);
-        }
-        return true;
-    }
-
-    public boolean validExprieTime(LocalTime expireTime, LocalTime creationTime, LocalDate expireDate, LocalDate creationDate) throws InvalidStockDataException {
-
-        if (expireTime == null) {
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_TIME_NULL);
-        } else if (expireTime.equals(creationTime)) {
-
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_TIME);
-        } else if (expireDate.equals(creationDate) && expireTime.isBefore(creationTime)) {
-
-            throw new InvalidStockDataException(ValidatorErrors.INVALID_TIME);
-        }
-
-
-        return true;
-    }
 
 
 }

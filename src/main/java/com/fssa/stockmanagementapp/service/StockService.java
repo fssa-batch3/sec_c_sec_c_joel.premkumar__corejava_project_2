@@ -11,51 +11,51 @@ import com.fssa.stockmanagementapp.validator.StockValidator;
 
 public class StockService {
 
-    StockValidator stockValidator = new StockValidator();
-    StockDao dao = new StockDao();
+	StockValidator stockValidator = new StockValidator();
+	StockDao dao = new StockDao();
 
+	public boolean addStock(Stock stock) throws InvalidStockDataException, StockDAOException {
 
-    public boolean addStock(Stock stock) throws InvalidStockDataException, StockDAOException {
+		if (stockValidator.validate(stock)) {
 
-        if (stockValidator.validate(stock)) {
+			return dao.addStock(stock);
+		}
+		return false;
+	}
 
-            return dao.addStock(stock);
-        }
-        return false;
-    }
+	public boolean updateStock(int id, String name, String isin, double price, String desc)
+			throws InvalidStockDataException, StockDAOException {
 
-    public boolean updateStock(String name, String isin, double price) throws InvalidStockDataException, StockDAOException {
+		if (stockValidator.validateName(name) && stockValidator.validateIsin(isin)
+				&& stockValidator.validatedPrice(price) && stockValidator.validatedescription(desc)) {
 
-        if (stockValidator.validateName(name) && stockValidator.validateIsin(isin)
-                && stockValidator.validatedPrice(price)) {
+			return dao.updateStock(id, name, isin, price, desc);
 
-            return dao.updateStock(name, isin, price);
+		}
+		return false;
+	}
 
-        }
-        return false;
-    }
+	public Stock readByName(String name) throws InvalidStockDataException, StockDAOException {
 
-    public Stock readByName(String name) throws InvalidStockDataException, StockDAOException {
+		Stock stock = null;
 
-        Stock stock = null;
+		if (stockValidator.validateName(name)) {
 
-        if (stockValidator.validateName(name)) {
+			stock = dao.findStockByName(name);
+		}
 
-            stock = dao.findStockByName(name);
-        }
+		return stock;
+	}
 
-        return stock;
-    }
+	public List<Stock> readAllStocks() throws StockDAOException {
 
-    public List<Stock> readAllStocks() throws StockDAOException {
+		return dao.readAllStock();
 
-        return dao.readAllStock();
+	}
 
-    }
+	public boolean deleteStock(int id) throws StockDAOException {
 
-    public boolean deleteStock(int id) throws StockDAOException {
+		return dao.deleteStock(id);
 
-        return dao.deleteStock(id);
-
-    }
+	}
 }

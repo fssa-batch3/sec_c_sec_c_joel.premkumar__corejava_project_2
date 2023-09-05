@@ -14,58 +14,55 @@ import com.fssa.stockmanagementapp.model.Stock;
 
 public class TestStockmanagement {
 
-    StockService service = new StockService();
+	StockService service = new StockService();
 
-    Logger logger = new Logger();
+	Logger logger = new Logger();
 
-    public Stock getStock() {
-        Stock stock = new Stock("GOOGL", "US-000406825-0", "AMZN  Stock", 3000.0, LocalDate.now(),
-                LocalTime.now(), LocalDate.now(), LocalTime.now().plusHours(1));
+	public Stock getStock() {
+		Stock stock = new Stock("NTLX", "US-657768825-0", "Netflix  Stock", 89000.0);
 
-        return stock;
-    }
+		return stock;
+	}
 
-    @Test
-    void testAddStock() throws InvalidStockDataException, StockDAOException {
+	@Test
+	void testAddStock() throws InvalidStockDataException, StockDAOException {
 
-        Assertions.assertTrue(service.addStock(getStock()));
+		Assertions.assertTrue(service.addStock(getStock()));
 
-    }
+	}
 
-    @Test
-    void testReadAll() throws StockDAOException {
+	@Test
+	void testReadAll() throws StockDAOException {
 
-        List<Stock> list = service.readAllStocks();
+		List<Stock> list = service.readAllStocks();
 
-        Assertions.assertFalse(list.isEmpty());
+		Assertions.assertFalse(list.isEmpty());
 
-        for (Stock ele : list) {
+		for (Stock ele : list) {
 
-            logger.info(ele);
-        }
-    }
+			logger.info(ele);
+		}
+	}
 
+	@Test
+	void testReadByName() throws StockDAOException, InvalidStockDataException {
 
-    @Test
-    void testReadByName() throws StockDAOException, InvalidStockDataException {
+		Stock stock = service.readByName("NTLX");
+		Assertions.assertNotNull(stock);
+		logger.info(stock);
 
-        Stock stock = service.readByName("AAPL");
-        Assertions.assertNotNull(stock);
-        logger.info(stock);
+	}
 
-    }
+	@Test
+	void testDeleteStock() throws StockDAOException {
 
-    @Test
-    void testDeleteStock() throws StockDAOException {
+		Assertions.assertTrue(service.deleteStock(1));
+	}
 
-        Assertions.assertTrue(service.deleteStock(15));
-    }
+	@Test
+	void testUpdateStock() throws StockDAOException, InvalidStockDataException {
 
-    @Test
-    void testUpdateStock() throws StockDAOException, InvalidStockDataException{
-
-        Assertions.assertTrue(service.updateStock("AAPL", "US-000402625-0", 10000));
-    }
-
+		Assertions.assertTrue(service.updateStock(2, "AAPL", "US0378331005", 195.87, "Apple Inc. is a technology company that designs and manufactures consumer electronics and software. They are most well known for the iPhone, iPad, and Mac computers."));
+	}
 
 }

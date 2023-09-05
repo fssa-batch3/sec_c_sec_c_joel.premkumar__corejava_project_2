@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,156 +18,151 @@ import com.fssa.stockmanagementapp.util.Logger;
 
 public class StockDao {
 
-    Logger logger = new Logger();
+	Logger logger = new Logger();
 
-    public boolean addStock(Stock stock) throws StockDAOException {
+	public boolean addStock(Stock stock) throws StockDAOException {
 
-        final String query = "INSERT INTO stock (stockName ,isin,descrip,price,createDate,expireDate,createTime,expriedTime) VALUES(? , ? , ?, ?, ?,?,?,?)";
+		final String query = "INSERT INTO stock (stockName ,isin,descrip,price,expire_date_time) VALUES(? , ? , ?, ?, ?)";
 
-        try (Connection con = ConnectionUtil.getConnection()) {
+		try (Connection con = ConnectionUtil.getConnection()) {
 
-            try (PreparedStatement pst = con.prepareStatement(query)) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-                pst.setString(1, stock.getName());
-                pst.setString(2, stock.getIsin());
-                pst.setString(3, stock.getDescription());
-                pst.setDouble(4, stock.getPrice());
-                pst.setDate(5, java.sql.Date.valueOf(stock.getCreateDate()));
-                pst.setDate(6, java.sql.Date.valueOf(stock.getExpireDate()));
-                pst.setTime(7, java.sql.Time.valueOf(stock.getCreatedTime()));
-                pst.setTime(8, java.sql.Time.valueOf(stock.getExpireTime()));
+				LocalDateTime now = LocalDateTime.now();
+				LocalDateTime expireDateTime = now.plusYears(2);
 
-                int row = pst.executeUpdate();
-                logger.info("Stock Added Successfully.");
-                return (row > 0) ? true : false;
+				pst.setString(1, stock.getName());
+				pst.setString(2, stock.getIsin());
+				pst.setString(3, stock.getDescription());
+				pst.setDouble(4, stock.getPrice());
+				pst.setTimestamp(5, java.sql.Timestamp.valueOf(expireDateTime));
 
-            }
+				int row = pst.executeUpdate();
+				logger.info("Stock Added Successfully.");
+				return row > 0;
 
-        } catch (SQLException e) {
+			}
 
-            throw new StockDAOException(StockDAOErrors.INSERT_ERROR + " " + e.getMessage());
-        }
+		} catch (SQLException e) {
 
+			throw new StockDAOException(StockDAOErrors.INSERT_ERROR + " " + e.getMessage());
+		}
 
-    }
+	}
 
-    public boolean updateStock(String name, String isin, double price) throws StockDAOException {
+	public boolean updateStock(int id, String name, String isin, double price, String desc) throws StockDAOException {
 
-        String query = "UPDATE stock SET  isin= ?, price = ? WHERE stockName = ?;";
-        try (Connection con = ConnectionUtil.getConnection()) {
+		String query = "UPDATE stock SET stockName = ?, isin= ?, price = ? , descrip = ? WHERE id = ?";
+		try (Connection con = ConnectionUtil.getConnection()) {
 
-            try (PreparedStatement pst = con.prepareStatement(query)) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-                pst.setString(1, isin);
-                pst.setDouble(2, price);
-                pst.setString(3, name);
+				pst.setString(1, name);
+				pst.setString(2, isin);
+				pst.setDouble(3, price);
+				pst.setString(4, desc);
+				pst.setInt(5, id);
+				int row = pst.executeUpdate();
+				logger.info("Stock Updated Successfully");
+				return row > 0;
 
-                int row = pst.executeUpdate();
-                logger.info("Stock Updated Successfully");
-                return (row > 0) ? true : false;
+			}
+		} catch (SQLException e) {
 
-            }
-        } catch (SQLException e) {
+			throw new StockDAOException(StockDAOErrors.UPDATE_ERROR + " " + e.getMessage());
 
-            throw new StockDAOException(StockDAOErrors.UPDATE_ERROR + " " + e.getMessage());
+		}
+	}
 
-        }
-    }
+	public boolean deleteStock(int id) throws StockDAOException {
 
-    public boolean deleteStock(int id) throws StockDAOException {
+		String query = "DELETE FROM stock WHERE id = ?";
+		int rows;
+		try (Connection con = ConnectionUtil.getConnection()) {
+			PreparedStatement pst = con.prepareStatement(query);
 
-        String query = "DELETE FROM stock WHERE id = ?";
-        int rows;
-        try (Connection con = ConnectionUtil.getConnection()) {
-            PreparedStatement pst = con.prepareStatement(query);
+			pst.setInt(1, id);
+			rows = pst.executeUpdate();
 
-            pst.setInt(1, id);
-            rows = pst.executeUpdate();
+			if (rows == 0) {
+				throw new StockDAOException(StockDAOErrors.DELETE_ERROR);
+			}
+		} catch (SQLException e) {
 
-            if (rows == 0) {
-                throw new StockDAOException(StockDAOErrors.DELETE_ERROR);
-            }
-        } catch (SQLException e) {
+			throw new StockDAOException(StockDAOErrors.DELETE_ERROR);
+		}
 
-            throw new StockDAOException(StockDAOErrors.DELETE_ERROR);
-        }
+		logger.info("Stock Deleted Successfully.");
+		return rows > 0;
+	}
 
-        logger.info("Stock Deleted Successfully.");
-        return (rows > 0) ? true : false;
-    }
+	public List<Stock> readAllStock() throws StockDAOException {
 
-    public List<Stock> readAllStock() throws StockDAOException {
+		List<Stock> stockList = new ArrayList<>();
 
-        List<Stock> stockList = new ArrayList<>();
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			String query = "SELECT * FROM stock";
+			try (Statement statement = connection.createStatement()) {
+				try (ResultSet rs = statement.executeQuery(query)) {
+					while (rs.next()) {
 
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            String query = "SELECT * FROM stock";
-            try (Statement statement = connection.createStatement()) {
-                try (ResultSet rs = statement.executeQuery(query)) {
-                    while (rs.next()) {
+						Stock stock = new Stock();
+						stock.setId(rs.getInt("id"));
+						stock.setName(rs.getString("stockName"));
+						stock.setIsin(rs.getString("isin"));
+						stock.setDescription(rs.getString("descrip"));
+						stock.setPrice(rs.getDouble("price"));
+						stock.setCreationDateTime(rs.getTimestamp("creation_date_time").toLocalDateTime());
+						stock.setExpireDateTime(rs.getTimestamp("expire_date_time").toLocalDateTime());
 
-                        Stock stock = new Stock();
-                        stock.setId(rs.getInt("id"));
-                        stock.setName(rs.getString("stockName"));
-                        stock.setIsin(rs.getString("isin"));
-                        stock.setDescription(rs.getString("descrip"));
-                        stock.setPrice(rs.getDouble("price"));
-                        stock.setCreateDate(rs.getDate("createDate").toLocalDate());
-                        stock.setCreatedTime(rs.getTime("createTime").toLocalTime());
-                        stock.setExpireDate(rs.getDate("expireDate").toLocalDate());
-                        stock.setExpireTime(rs.getTime("expriedTime").toLocalTime());
-                        stockList.add(stock);
+						stockList.add(stock);
 
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new StockDAOException(StockDAOErrors.READ_ERROR + " " + e.getMessage());
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new StockDAOException(StockDAOErrors.READ_ERROR + " " + e.getMessage());
 
-        }
+		}
 
-        logger.info("All stocks read successfully.");
-        return stockList;
-    }
+		logger.info("All stocks read successfully.");
+		return stockList;
+	}
 
-    public Stock findStockByName(String name) throws StockDAOException {
+	public Stock findStockByName(String name) throws StockDAOException {
 
-        Stock stock = null;
-        String query = "SELECT * FROM stock WHERE stockName = ?";
-        try (Connection con = ConnectionUtil.getConnection()) {
-            try (PreparedStatement pst = con.prepareStatement(query)) {
-                pst.setString(1, name);
+		Stock stock = new Stock();
+		String query = "SELECT * FROM stock WHERE stockName = ?";
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setString(1, name);
 
-                try (ResultSet result = pst.executeQuery()) {
-                    while (result.next()) {
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next()) {
 
-                        stock = new Stock();
+						stock.setId(rs.getInt("id"));
+						stock.setName(rs.getString("stockName"));
+						stock.setIsin(rs.getString("isin"));
+						stock.setDescription(rs.getString("descrip"));
+						stock.setPrice(rs.getDouble("price"));
+						stock.setCreationDateTime(rs.getTimestamp("creation_date_time").toLocalDateTime());
+						stock.setExpireDateTime(rs.getTimestamp("expire_date_time").toLocalDateTime());
 
-                        stock.setName(result.getString("stockName"));
-                        stock.setIsin(result.getString("isin"));
-                        stock.setDescription(result.getString("descrip"));
-                        stock.setPrice(result.getDouble("price"));
-                        stock.setCreateDate(result.getDate("createDate").toLocalDate());
-                        stock.setCreatedTime(result.getTime("createTime").toLocalTime());
-                        stock.setExpireDate(result.getDate("expireDate").toLocalDate());
-                        stock.setExpireTime(result.getTime("expriedTime").toLocalTime());
-                        stock.setIsin(result.getString("isin"));
-                        stock.setPrice(result.getDouble("price"));
+						return stock;
 
-                    }
-                }
+					}
+				}
 
-            }
+			}
 
-        } catch (SQLException e) {
+		} catch (SQLException e) {
 
-            throw new StockDAOException(StockDAOErrors.READ_BY_NAME_ERROR + " " + e.getMessage());
-        }
+			throw new StockDAOException(StockDAOErrors.READ_BY_NAME_ERROR + " " + e.getMessage());
+		}
 
-        logger.info("Stock read by name successfully.");
-        return stock;
+		logger.info("Stock read by name successfully.");
+		return stock;
 
-    }
-
+	}
 
 }
