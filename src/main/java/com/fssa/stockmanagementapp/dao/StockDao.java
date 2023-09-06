@@ -77,13 +77,14 @@ public class StockDao {
 		String query = "DELETE FROM stock WHERE id = ?";
 		int rows;
 		try (Connection con = ConnectionUtil.getConnection()) {
-			PreparedStatement pst = con.prepareStatement(query);
+			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-			pst.setInt(1, id);
-			rows = pst.executeUpdate();
+				pst.setInt(1, id);
+				rows = pst.executeUpdate();
 
-			if (rows == 0) {
-				throw new StockDAOException(StockDAOErrors.DELETE_ERROR);
+				if (rows == 0) {
+					throw new StockDAOException(StockDAOErrors.DELETE_ERROR);
+				}
 			}
 		} catch (SQLException e) {
 
@@ -162,7 +163,5 @@ public class StockDao {
 		return stock;
 
 	}
-	
-	
 
 }
