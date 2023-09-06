@@ -20,13 +20,13 @@ public class TestStockValidator {
 	Stock inValidStocks = new Stock(null, null, null, -3);
 
 	@Test
-	public void testValidate() throws Exception {
+	void testValidate() throws Exception {
 
 		Assertions.assertTrue(validator.validate(validStocks));
 	}
 
 	@Test
-	public void testInvalid() {
+	void testInvalid() {
 		try {
 			validator.validate(null);
 		} catch (InvalidStockDataException e) {
@@ -36,13 +36,13 @@ public class TestStockValidator {
 	}
 
 	@Test
-	public void testValidateName() throws InvalidStockDataException {
+	void testValidateName() throws InvalidStockDataException {
 		validStocks.setName(validStocks.getName());
 		Assertions.assertTrue(validator.validateName(validStocks.getName()));
 	}
 
 	@Test
-	public void testNullName() {
+	void testNullName() {
 		try {
 			validator.validateName(inValidStocks.getName());
 		} catch (InvalidStockDataException e) {
@@ -52,7 +52,7 @@ public class TestStockValidator {
 	}
 
 	@Test
-	public void testInvalidName() {
+	void testInvalidName() {
 		try {
 			validator.validateName("KJDK6@*OEJ09");
 
@@ -62,13 +62,13 @@ public class TestStockValidator {
 	}
 
 	@Test
-	public void testvalidIsin() throws InvalidStockDataException {
+	void testvalidIsin() throws InvalidStockDataException {
 		validStocks.setIsin(validStocks.getIsin());
 		Assertions.assertTrue(validator.validateIsin(validStocks.getIsin()));
 	}
 
 	@Test
-	public void testInvalidIsin() {
+	void testInvalidIsin() {
 
 		try {
 
@@ -82,13 +82,13 @@ public class TestStockValidator {
 	}
 
 	@Test
-	public void testvalidDesc() throws InvalidStockDataException {
+	void testvalidDesc() throws InvalidStockDataException {
 		validStocks.setDescription(validStocks.getDescription());
 		Assertions.assertTrue(validator.validatedescription(validStocks.getDescription()));
 	}
 
-	@Test
-	public void testInvalidDesc() {
+	@Test 
+	void testInvalidDesc() {
 
 		try {
 
@@ -102,14 +102,14 @@ public class TestStockValidator {
 	}
 
 	@Test
-	public void testvalidPrice() throws InvalidStockDataException {
+	void testvalidPrice() throws InvalidStockDataException {
 		validStocks.setPrice(validStocks.getPrice());
 		Assertions.assertTrue(validator.validatedPrice(VALID_PRICE));
 
 	}
 
 	@Test
-	public void testInvalidPrice() {
+	void testInvalidPrice() {
 
 		try {
 

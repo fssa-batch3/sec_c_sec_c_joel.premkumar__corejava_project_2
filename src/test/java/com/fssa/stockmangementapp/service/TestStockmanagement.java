@@ -17,7 +17,7 @@ import com.fssa.stockmanagementapp.model.Stock;
 	Logger logger = new Logger();
 
 	public Stock getStock() {
-		Stock stock = new Stock("TTL", "US-65776985-0", "MediaTek Dimensity  Stock", 8800.0);
+		Stock stock = new Stock("TTPL", "US-65776985-0", "MediaTek Dimensity  Stock", 8800.0);
 
 		return stock;
 	}  
@@ -54,13 +54,13 @@ import com.fssa.stockmanagementapp.model.Stock;
 	@Test
 	void testDeleteStock() throws StockDAOException {
 
-		Assertions.assertTrue(service.deleteStock(33));
+		Assertions.assertTrue(service.deleteStock(34));
 	}
 
 	@Test
 	void testUpdateStock() throws StockDAOException, InvalidStockDataException {
 
-		Assertions.assertTrue(service.updateStock(2, "AAPL", "US0378731005", 196.87, "Apple Inc. is a technology company that designs and manufactures consumer electronics and software. They are most well known for the iPhone, iPad, and Mac computers."));
+		Assertions.assertTrue(service.updateStock(2, "AAPL", "US0378731005", 197.87, "Apple Inc. is a technology company that designs and manufactures consumer electronics and software. They are most well known for the iPhone, iPad, and Mac computers."));
 	}
 
 }
