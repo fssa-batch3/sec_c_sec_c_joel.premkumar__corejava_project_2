@@ -15,7 +15,7 @@ public class StockService {
 
 	public boolean addStock(Stock stock) throws InvalidStockDataException, StockDAOException {
 
-		if (stockValidator.validate(stock)) { // if(true)
+		if (stockValidator.validate(stock)) {
 
 			return dao.addStock(stock);
 		}
