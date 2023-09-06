@@ -1,7 +1,5 @@
 package com.fssa.stockmanagementapp.validator;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +8,8 @@ import com.fssa.stockmanagementapp.exception.InvalidStockDataException;
 import com.fssa.stockmanagementapp.model.Stock;
 
 public class StockValidator {
+	
+	public static final int MINIMUM_PRICE = 100;
 
     public boolean validate(Stock stock) throws InvalidStockDataException {
         if (stock == null) {
@@ -57,7 +57,7 @@ public class StockValidator {
 
     public boolean validatedPrice(double price) throws InvalidStockDataException {
 
-        if (price <= 10) {
+        if (price < MINIMUM_PRICE) {
             throw new InvalidStockDataException(ValidatorErrors.INVALID_PRICE);
         }
         return true;

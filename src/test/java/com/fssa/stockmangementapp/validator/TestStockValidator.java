@@ -1,7 +1,5 @@
 package com.fssa.stockmangementapp.validator;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 import com.fssa.stockmanagementapp.exception.InvalidStockDataException;
 import org.junit.jupiter.api.Assertions;
@@ -11,10 +9,13 @@ import com.fssa.stockmanagementapp.errors.ValidatorErrors;
 import com.fssa.stockmanagementapp.model.Stock;
 import com.fssa.stockmanagementapp.validator.StockValidator;
 
-public class TestStockValidator {
+public class TestStockValidator { 
+	
+	public static final double VALID_PRICE = 100;
+	public static final double INVALID_PRICE = 0;
 
 	StockValidator validator = new StockValidator();
-	Stock validStocks = new Stock("apple", "US-000402625-0", "the stock is good", 30.0);
+	Stock validStocks = new Stock("apple", "US-000402625-0", "the stock is good", 130.0);
 
 	Stock inValidStocks = new Stock(null, null, null, -3);
 
@@ -103,7 +104,7 @@ public class TestStockValidator {
 	@Test
 	public void testvalidPrice() throws InvalidStockDataException {
 		validStocks.setPrice(validStocks.getPrice());
-		Assertions.assertTrue(validator.validatedPrice(100));
+		Assertions.assertTrue(validator.validatedPrice(VALID_PRICE));
 
 	}
 
@@ -112,7 +113,7 @@ public class TestStockValidator {
 
 		try {
 
-			boolean valid = validator.validatedPrice(0);
+			boolean valid = validator.validatedPrice(INVALID_PRICE);
 			Assertions.fail("Validation error");
 
 		} catch (InvalidStockDataException e) {

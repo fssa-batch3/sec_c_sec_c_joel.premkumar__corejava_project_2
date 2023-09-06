@@ -1,8 +1,6 @@
 package com.fssa.stockmanagementapp.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class Stock {
     private int id;
@@ -16,8 +14,6 @@ public class Stock {
     public Stock() {
     	
     }
-    
-    
     
 	public Stock(String name, String isin, String description, double price) {
 		super();
@@ -86,9 +82,4 @@ public class Stock {
 		return "Stock [id=" + id + ", name=" + name + ", isin=" + isin + ", description=" + description + ", price="
 				+ price + ", creationDateTime=" + creationDateTime + ", expireDateTime=" + expireDateTime + "]";
 	}
-  
-	
-
-    
-
 }
