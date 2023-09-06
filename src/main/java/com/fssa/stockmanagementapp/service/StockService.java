@@ -1,6 +1,5 @@
 package com.fssa.stockmanagementapp.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.fssa.stockmanagementapp.dao.StockDao;
@@ -16,7 +15,7 @@ public class StockService {
 
 	public boolean addStock(Stock stock) throws InvalidStockDataException, StockDAOException {
 
-		if (stockValidator.validate(stock)) {
+		if (stockValidator.validate(stock)) { // if(true)
 
 			return dao.addStock(stock);
 		}

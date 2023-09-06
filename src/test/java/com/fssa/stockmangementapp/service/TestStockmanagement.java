@@ -10,14 +10,14 @@ import org.junit.jupiter.api.Test;
 import com.fssa.stockmanagementapp.service.StockService;
 import com.fssa.stockmanagementapp.model.Stock;
 
-public class TestStockmanagement {
+ class TestStockmanagement {
 
 	StockService service = new StockService();
 
 	Logger logger = new Logger();
 
 	public Stock getStock() {
-		Stock stock = new Stock("MDTK", "US-65776985-0", "MediaTek Dimensity  Stock", 8800.0);
+		Stock stock = new Stock("MDHK", "US-65776985-0", "MediaTek Dimensity  Stock", 8800.0);
 
 		return stock;
 	}  
@@ -26,7 +26,7 @@ public class TestStockmanagement {
 	void testAddStock() throws InvalidStockDataException, StockDAOException {
 
 		Assertions.assertTrue(service.addStock(getStock()));
-
+		logger.info("Stock Added Successfully.");
 	}
 
 	@Test
@@ -54,13 +54,13 @@ public class TestStockmanagement {
 	@Test
 	void testDeleteStock() throws StockDAOException {
 
-		Assertions.assertTrue(service.deleteStock(24));
+		Assertions.assertTrue(service.deleteStock(28));
 	}
 
 	@Test
 	void testUpdateStock() throws StockDAOException, InvalidStockDataException {
 
-		Assertions.assertTrue(service.updateStock(2, "AAPL", "US0378731005", 192.87, "Apple Inc. is a technology company that designs and manufactures consumer electronics and software. They are most well known for the iPhone, iPad, and Mac computers."));
+		Assertions.assertTrue(service.updateStock(2, "AAPL", "US0378731005", 193.87, "Apple Inc. is a technology company that designs and manufactures consumer electronics and software. They are most well known for the iPhone, iPad, and Mac computers."));
 	}
 
 }

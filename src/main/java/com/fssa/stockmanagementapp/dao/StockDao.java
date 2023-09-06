@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,6 @@ public class StockDao {
 				pst.setTimestamp(5, java.sql.Timestamp.valueOf(expireDateTime));
 
 				int row = pst.executeUpdate();
-				logger.info("Stock Added Successfully.");
 				return row > 0;
 
 			}
@@ -164,5 +162,7 @@ public class StockDao {
 		return stock;
 
 	}
+	
+	
 
 }
