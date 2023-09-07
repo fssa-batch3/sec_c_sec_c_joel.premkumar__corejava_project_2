@@ -22,17 +22,14 @@ public class StockService {
 		return false;
 	}
 
-	public boolean updateStock(int id, String name, String isin, double price, String desc)
+	public boolean updateStock(Stock stock,int id)
 			throws InvalidStockDataException, StockDAOException {
 
-		if (stockValidator.validateName(name) && stockValidator.validateIsin(isin)
-				&& stockValidator.validatedPrice(price) && stockValidator.validatedescription(desc)) {
 
-			return dao.updateStock(id, name, isin, price, desc);
+			return dao.updateStock(stock,id);
 
+			
 		}
-		return false;
-	}
 
 	public Stock readByName(String name) throws InvalidStockDataException, StockDAOException {
 
