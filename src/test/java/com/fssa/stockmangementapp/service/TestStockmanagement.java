@@ -24,7 +24,7 @@ class TestStockmanagement {
      * @return A sample Stock object.
      */
     public Stock getStock() {
-        Stock stock = new Stock("FYHX", "US0378331005", "MediaTek Dimensity  Stock", 89.0);
+        Stock stock = new Stock("", "US0378331005", "MediaTek Dimensity  Stock", 89.0);
         return stock;
     }
 
@@ -64,7 +64,7 @@ class TestStockmanagement {
     void testReadByName() throws StockDAOException, InvalidStockDataException {
         Stock stock = service.readByName("TSLA");
         Assertions.assertNotNull(stock);
-        logger.info(stock);
+        logger.info(stock); 
     }
 
     /**
@@ -74,7 +74,7 @@ class TestStockmanagement {
      */
     @Test
     void testDeleteStock() throws StockDAOException {
-        Assertions.assertTrue(service.deleteStock(49));
+        Assertions.assertTrue(service.deleteStock(55));
     }
 
     /**
@@ -88,10 +88,10 @@ class TestStockmanagement {
     	
     	Stock stock = new Stock();
     	
-    	stock.setName("JOEL");
-    	stock.setIsin("US0378331005");
-    	stock.setPrice(108);
-    	stock.setDescription("Qualcomm Inc is a global leader in the development and commercialization of advanced wireless technologies and mobile communications products.");
-        Assertions.assertTrue(service.updateStock(stock,2));
+    	stock.setName("TSLA");
+    	stock.setIsin("US88160R1014");
+    	stock.setPrice(261);
+    	stock.setDescription("TESLA is a Top tech company");
+        Assertions.assertTrue(service.updateStock(stock,54));
     }
 }
