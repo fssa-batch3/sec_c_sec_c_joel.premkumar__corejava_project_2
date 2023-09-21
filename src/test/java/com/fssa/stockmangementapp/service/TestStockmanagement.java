@@ -24,7 +24,7 @@ class TestStockmanagement {
      * @return A sample Stock object.
      */
     public Stock getStock() {
-        Stock stock = new Stock("", "US0378331005", "MediaTek Dimensity  Stock", 89.0);
+        Stock stock = new Stock("AAPL", "US0378331005", "Apple is a Top Selling Mobile phones and Laptops, Ipads", 89.0);
         return stock;
     }
 
@@ -74,7 +74,7 @@ class TestStockmanagement {
      */
     @Test
     void testDeleteStock() throws StockDAOException {
-        Assertions.assertTrue(service.deleteStock(55));
+        Assertions.assertTrue(service.deleteStock(56));
     }
 
     /**
@@ -90,7 +90,7 @@ class TestStockmanagement {
     	
     	stock.setName("TSLA");
     	stock.setIsin("US88160R1014");
-    	stock.setPrice(261);
+    	stock.setPrice(262);
     	stock.setDescription("TESLA is a Top tech company");
         Assertions.assertTrue(service.updateStock(stock,54));
     }
