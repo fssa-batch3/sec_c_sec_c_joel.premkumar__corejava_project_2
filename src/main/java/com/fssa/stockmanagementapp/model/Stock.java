@@ -9,28 +9,41 @@ public class Stock {
 	private String description;
 	private double price;
 	private LocalDateTime creationDateTime;
-	private LocalDateTime expireDateTime;
+	private int userId;
+
 
 	public Stock() {
 
 	}
 
 	public Stock(String name, String isin, String description, double price) {
-		this.name = name;
+		this.name = name; 
 		this.isin = isin;
 		this.description = description;
 		this.price = price;
 	}
 
+
+	
+	
 	public Stock(int id, String name, String isin, String description, double price, LocalDateTime creationDateTime,
-			LocalDateTime expireDateTime) {
+			int userId) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.isin = isin;
 		this.description = description;
 		this.price = price;
 		this.creationDateTime = creationDateTime;
-		this.expireDateTime = expireDateTime;
+		this.userId = userId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public int getId() {
@@ -81,17 +94,11 @@ public class Stock {
 		this.creationDateTime = creationDateTime;
 	}
 
-	public LocalDateTime getExpireDateTime() {
-		return expireDateTime;
-	}
-
-	public void setExpireDateTime(LocalDateTime expireDateTime) {
-		this.expireDateTime = expireDateTime;
-	}
-
 	@Override
 	public String toString() {
 		return "Stock [id=" + id + ", name=" + name + ", isin=" + isin + ", description=" + description + ", price="
-				+ price + ", creationDateTime=" + creationDateTime + ", expireDateTime=" + expireDateTime + "]";
+				+ price + ", creationDateTime=" + creationDateTime + ", userId=" + userId + "]";
 	}
+
+
 }

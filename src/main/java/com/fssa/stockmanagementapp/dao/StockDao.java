@@ -31,7 +31,7 @@ public class StockDao {
      */
     public boolean addStock(Stock stock) throws StockDAOException {
 
-        final String query = "INSERT INTO stock (stockName ,isin,descrip,price,expire_date_time) VALUES(? , ? , ?, ?, ?)";
+        final String query = "INSERT INTO stock (stockName ,isin,descrip,price,user_id) VALUES(? , ? , ?, ?, ?)";
 
         try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -44,7 +44,7 @@ public class StockDao {
                 pst.setString(2, stock.getIsin());
                 pst.setString(3, stock.getDescription());
                 pst.setDouble(4, stock.getPrice());
-                pst.setTimestamp(5, java.sql.Timestamp.valueOf(expireDateTime));
+                 pst.setInt(5, stock.getUserId());
 
                 int row = pst.executeUpdate();
                 return row > 0;
@@ -129,14 +129,16 @@ public class StockDao {
      * @return A list of Stock objects representing all stocks in the database.
      * @throws StockDAOException If there was an error during the database operation.
      */
-    public List<Stock> readAllStock() throws StockDAOException {
+    public List<Stock> readAllStock(int userId) throws StockDAOException {
+    	
 
         List<Stock> stockList = new ArrayList<>();
 
         try (Connection connection = ConnectionUtil.getConnection()) {
-            String query = "SELECT * FROM stock";
-            try (Statement statement = connection.createStatement()) {
-                try (ResultSet rs = statement.executeQuery(query)) {
+        	String query = "SELECT id, user_id, stockName, isin, descrip, price, creation_date_time FROM stock WHERE user_id = ?";
+            try (PreparedStatement pst = connection.prepareStatement(query)) {	
+            	pst.setInt(1,userId);
+                try (ResultSet rs = pst.executeQuery()) {
                     while (rs.next()) {
 
                         Stock stock = new Stock();
@@ -146,8 +148,8 @@ public class StockDao {
                         stock.setDescription(rs.getString("descrip"));
                         stock.setPrice(rs.getDouble("price"));
                         stock.setCreationDateTime(rs.getTimestamp("creation_date_time").toLocalDateTime());
-                        stock.setExpireDateTime(rs.getTimestamp("expire_date_time").toLocalDateTime());
-
+                        stock.setUserId(rs.getInt("user_id"));
+                        
                         stockList.add(stock);
 
                     }
@@ -186,7 +188,7 @@ public class StockDao {
                         stock.setDescription(rs.getString("descrip"));
                         stock.setPrice(rs.getDouble("price"));
                         stock.setCreationDateTime(rs.getTimestamp("creation_date_time").toLocalDateTime());
-                        stock.setExpireDateTime(rs.getTimestamp("expire_date_time").toLocalDateTime());
+                      
 
                         return stock;
 

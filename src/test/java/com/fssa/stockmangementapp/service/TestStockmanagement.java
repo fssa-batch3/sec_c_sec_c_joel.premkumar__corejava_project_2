@@ -15,83 +15,87 @@ import com.fssa.stockmanagementapp.model.Stock;
  */
 class TestStockmanagement {
 
-    StockService service = new StockService();
-    Logger logger = new Logger();
+	StockService service = new StockService();
+	Logger logger = new Logger();
 
-    /**
-     * Creates and returns a sample Stock object for testing.
-     *
-     * @return A sample Stock object.
-     */
-    public Stock getStock() {
-        Stock stock = new Stock("AAPL", "US0378331005", "Apple is a Top Selling Mobile phones and Laptops, Ipads", 89.0);
-        return stock;
-    }
+	/**
+	 * Creates and returns a sample Stock object for testing.
+	 *
+	 * @return A sample Stock object.
+	 */
+	public Stock getStock() {
+		Stock stock = new Stock("AAPL", "US0378331005", "Apple is a Top Selling Mobile phones and Laptops, Ipads",
+				89.0);
+		return stock;
+	}
 
-    /**
-     * Test the addStock method of the StockService class.
-     *
-     * @throws InvalidStockDataException if stock data is invalid.
-     * @throws StockDAOException if there's an issue with the data access layer.
-     */
-    @Test
-    void testAddStock() throws InvalidStockDataException, StockDAOException {
-        Assertions.assertTrue(service.addStock(getStock()));
-        logger.info("Stock Added Successfully.");
-    }
+	/**
+	 * Test the addStock method of the StockService class.
+	 *
+	 * @throws InvalidStockDataException if stock data is invalid.
+	 * @throws StockDAOException         if there's an issue with the data access
+	 *                                   layer.
+	 */
+	@Test
+	void testAddStock() throws InvalidStockDataException, StockDAOException {
+		Assertions.assertTrue(service.addStock(getStock()));
+		logger.info("Stock Added Successfully.");
+	}
 
-    /**
-     * Test the readAllStocks method of the StockService class.
-     *
-     * @throws StockDAOException if there's an issue with the data access layer.
-     */
-    @Test
-    void testReadAll() throws StockDAOException {
-        List<Stock> list = service.readAllStocks();
-        Assertions.assertFalse(list.isEmpty());
-        for (Stock ele : list) {
-            logger.info(ele);
-        }
-    }
+	/**
+	 * Test the readAllStocks method of the StockService class.
+	 *
+	 * @throws StockDAOException if there's an issue with the data access layer.
+	 */
+	@Test
+	void testReadAll() throws StockDAOException {
+		List<Stock> list = service.readAllStocks(9);
+		Assertions.assertFalse(list.isEmpty());
+		for (Stock ele : list) {
+			logger.info(ele);
+		}
+	}
 
-    /**
-     * Test the readByName method of the StockService class.
-     *
-     * @throws StockDAOException if there's an issue with the data access layer.
-     * @throws InvalidStockDataException if stock data is invalid.
-     */
-    @Test
-    void testReadByName() throws StockDAOException, InvalidStockDataException {
-        Stock stock = service.readByName("TSLA");
-        Assertions.assertNotNull(stock);
-        logger.info(stock); 
-    }
+	/**
+	 * Test the readByName method of the StockService class.
+	 *
+	 * @throws StockDAOException         if there's an issue with the data access
+	 *                                   layer.
+	 * @throws InvalidStockDataException if stock data is invalid.
+	 */
+	@Test
+	void testReadByName() throws StockDAOException, InvalidStockDataException {
+		Stock stock = service.readByName("TSLA");
+		Assertions.assertNotNull(stock);
+		logger.info(stock);
+	}
 
-    /**
-     * Test the deleteStock method of the StockService class.
-     *
-     * @throws StockDAOException if there's an issue with the data access layer.
-     */
-    @Test
-    void testDeleteStock() throws StockDAOException {
-        Assertions.assertTrue(service.deleteStock(56));
-    }
+	/**
+	 * Test the deleteStock method of the StockService class.
+	 *
+	 * @throws StockDAOException if there's an issue with the data access layer.
+	 */
+	@Test
+	void testDeleteStock() throws StockDAOException {
+		Assertions.assertTrue(service.deleteStock(56));
+	}
 
-    /**
-     * Test the updateStock method of the StockService class.
-     *
-     * @throws StockDAOException if there's an issue with the data access layer.
-     * @throws InvalidStockDataException if stock data is invalid.
-     */
-    @Test
-    void testUpdateStock() throws StockDAOException, InvalidStockDataException {
-    	
-    	Stock stock = new Stock();
-    	
-    	stock.setName("TSLA");
-    	stock.setIsin("US88160R1014");
-    	stock.setPrice(262);
-    	stock.setDescription("TESLA is a Top tech company");
-        Assertions.assertTrue(service.updateStock(stock,54));
-    }
+	/**
+	 * Test the updateStock method of the StockService class.
+	 *
+	 * @throws StockDAOException         if there's an issue with the data access
+	 *                                   layer.
+	 * @throws InvalidStockDataException if stock data is invalid.
+	 */
+	@Test
+	void testUpdateStock() throws StockDAOException, InvalidStockDataException {
+
+		Stock stock = new Stock();
+
+		stock.setName("TSLA");
+		stock.setIsin("US88160R1014");
+		stock.setPrice(262);
+		stock.setDescription("TESLA is a Top tech company");
+		Assertions.assertTrue(service.updateStock(stock, 54));
+	}
 }

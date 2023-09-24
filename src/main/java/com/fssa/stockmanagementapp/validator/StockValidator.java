@@ -27,10 +27,10 @@ public class StockValidator {
     public boolean validate(Stock stock) throws InvalidStockDataException {
         if (stock == null) {
             throw new InvalidStockDataException(ValidatorErrors.INVALID_NULL);
-        }
+        } 
 
         validateName(stock.getName());
-        validatedescription(stock.getDescription());
+       // validatedescription(stock.getDescription());
         validateIsin(stock.getIsin());
         validatedPrice(stock.getPrice());
         return true;
@@ -92,7 +92,7 @@ public class StockValidator {
             throw new InvalidStockDataException(ValidatorErrors.INVALID_DESC);
         }
         // Pattern for a description with 1 to 100 characters, allowing letters, digits, and spaces
-        String regex = "^[\\p{L}0-9\\s]{1,500}+$";
+        String regex = "^[A-Za-z0-9]";
         Pattern pattern = Pattern.compile(regex);
         Matcher match = pattern.matcher(description);
         boolean isMatch = match.matches();

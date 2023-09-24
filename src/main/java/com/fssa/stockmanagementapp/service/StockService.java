@@ -43,9 +43,9 @@ public class StockService {
 		return stock;
 	}
 
-	public List<Stock> readAllStocks() throws StockDAOException {
+	public List<Stock> readAllStocks(int userId) throws StockDAOException {
 
-		return dao.readAllStock();
+		return dao.readAllStock(userId);
 
 	}
 
