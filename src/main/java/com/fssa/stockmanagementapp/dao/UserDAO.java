@@ -24,7 +24,7 @@ public class UserDAO {
 			statement.setString(4, user.getPassword());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			throw new UserDAOException("Error adding user", e);
+			throw new UserDAOException("User Alraedy Exist!!", e);
 		}
 	}
 

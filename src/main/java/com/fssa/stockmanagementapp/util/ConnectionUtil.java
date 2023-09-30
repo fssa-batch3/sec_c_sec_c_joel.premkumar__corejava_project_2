@@ -10,9 +10,9 @@ public class ConnectionUtil {
 
         String url, userName, passWord;
 
-            url = System.getenv("DATABASE_HOST_LOCAL");
-            userName = System.getenv("DATABASE_USERNAME_LOCAL");
-            passWord = System.getenv("DATABASE_PASSWORD_LOCAL");
+            url = System.getenv("DATABASE_HOST");
+            userName = System.getenv("DATABASE_USERNAME");
+            passWord = System.getenv("DATABASE_PASSWORD");
             
 
         try {
